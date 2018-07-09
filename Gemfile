@@ -6,6 +6,7 @@ gem 'rails', '~> 5.2'
 gem 'pg', '>= 0.18', '< 2.0'
 gem 'puma'
 gem 'bcrypt'
+gem 'draper'
 
 group :development, :test do
   gem 'rspec-rails'
