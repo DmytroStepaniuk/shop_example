@@ -1,10 +1,8 @@
-class UserController < ApplicationController
+class Api::UsersController < ApplicationController
   skip_before_action :authenticate!, only: :create
 
-  def show     
-  end
-
   private
+  
   def build_resource
     @user = User.new resource_params
   end
