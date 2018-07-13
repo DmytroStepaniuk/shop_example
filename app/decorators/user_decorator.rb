@@ -7,9 +7,9 @@ class UserDecorator < Draper::Decorator
   
   def as_json
     {
-      user: user,
-      session: {}
+      email: object.email,
+      full_name: object.full_name
     }
   end
-
+  
 end
