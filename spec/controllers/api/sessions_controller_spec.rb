@@ -17,9 +17,22 @@ RSpec.describe Api::SessionsController, type: :controller do
     end
 
     context do
-      before { post :create, params: { session: { email: 'bad@example.com', password: 'keks123' } }, format: :json }
+      before { post :create, params: { session: { email: 'error@error.com', password: 'error' } }, format: :json }
 
       it { should render_template :errors }
     end
   end
+  
+  # describe '#destroy' do
+  #   subject { sign_in }
+  #   allow(controller).to receive(:current_session).and_return session
+  #   before { expect(subject).to receive(:current_session).and_return current_session }
+
+  #   before { expect(current_session).to receive(:destroy!) }
+
+  #   before { process :destroy, method: :delete, params: { format: :json } }
+
+  #   it { should respond_with :no_content }
+  # end
+
 end

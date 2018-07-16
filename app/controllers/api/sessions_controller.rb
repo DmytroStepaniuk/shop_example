@@ -3,7 +3,7 @@ class Api::SessionsController < ApplicationController
 
   def create
     @resource = SignIn.new resource_params
-
+    
     resource.save!
   end
 
