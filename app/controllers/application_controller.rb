@@ -1,13 +1,13 @@
 class ApplicationController < ActionController::Base
   protect_from_forgery with: :exception
   
-  skip_before_action :verify_authenticity_token, if: -> { request.format.json? }
-  
   helper_method :resource, :current_user, :current_session
 
   attr_reader :resource, :current_session, :current_user
 
   before_action :authenticate!
+  
+  skip_before_action :verify_authenticity_token, if: -> { request.format.json? }
 
   rescue_from ActionController::ParameterMissing do |exception|
     @exception = exception
