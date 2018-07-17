@@ -22,17 +22,18 @@ RSpec.describe Api::SessionsController, type: :controller do
       it { should render_template :errors }
     end
   end
-  
-  # describe '#destroy' do
-  #   subject { sign_in }
-  #   allow(controller).to receive(:current_session).and_return session
-  #   before { expect(subject).to receive(:current_session).and_return current_session }
 
-  #   before { expect(current_session).to receive(:destroy!) }
+  describe '#destroy' do
+    before { sign_in }
 
-  #   before { process :destroy, method: :delete, params: { format: :json } }
+    let(:session) { stub_model Session }
 
-  #   it { should respond_with :no_content }
-  # end
+    before { allow(controller).to receive(:current_session).and_return session }
 
+    before { expect(session).to receive :destroy! }
+
+    before { process :destroy, method: :delete, params: { format: :json } }
+
+    it { should respond_with :no_content }
+  end
 end
