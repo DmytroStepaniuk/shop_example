@@ -8,7 +8,7 @@ RSpec.describe Api::SessionsController, type: :controller do
   it { should route(:delete, '/api/sessions').to(action: :destroy, format: :json) }
 
   describe '#create.json' do
-    let(:signin) { stub_model SignIn }
+    let(:signin) { SignIn.new params.to_unsafe_h }
 
     context do
       let(:params) { permit!(email: 'test@test.com', password: 'test12') }
