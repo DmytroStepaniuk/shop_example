@@ -23,4 +23,5 @@ group :test do
   gem 'shoulda-callback-matchers'
   gem 'simplecov', require: false
   gem 'rails-controller-testing'
+  gem 'rspec-activemodel-mocks'
 end
