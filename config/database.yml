@@ -17,3 +17,4 @@ production:
   database: shop_example_production
   username: shop_example
   password: <%= ENV['SHOP_EXAMPLE_DATABASE_PASSWORD'] %>
+

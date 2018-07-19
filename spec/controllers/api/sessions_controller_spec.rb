@@ -8,31 +8,30 @@ RSpec.describe Api::SessionsController, type: :controller do
   it { should route(:delete, '/api/sessions').to(action: :destroy, format: :json) }
 
   describe '#create.json' do
-    before { User.create email: 'test@test.com', password: 'test12' }
+    let(:signin) { SignIn.new params.to_unsafe_h }
 
     context do
-      before { post :create, params: { session: { email: 'test@test.com', password: 'test12' } }, format: :json }
+      let(:params) { permit!(email: 'test@test.com', password: 'test12') }
+
+      before { expect(SignIn).to receive(:new).with(params).and_return signin }
+
+      before { expect(signin).to receive :save! }
+
+      before { post :create, params: { session: params.to_unsafe_h }, format: :json }
 
       it { should render_template :create }
     end
-
-    context do
-      before { post :create, params: { session: { email: 'error@error.com', password: 'error' } }, format: :json }
-
-      it { should render_template :errors }
-    end
   end
-  
-  # describe '#destroy' do
-  #   subject { sign_in }
-  #   allow(controller).to receive(:current_session).and_return session
-  #   before { expect(subject).to receive(:current_session).and_return current_session }
 
-  #   before { expect(current_session).to receive(:destroy!) }
+  describe '#destroy' do
+    before { sign_in }
 
-  #   before { process :destroy, method: :delete, params: { format: :json } }
+    let(:session) { stub_model Session }
 
-  #   it { should respond_with :no_content }
-  # end
+    before { allow(controller).to receive(:current_session).and_return session }
 
+    before { process :destroy, method: :delete, format: :json }
+
+    it { should respond_with :no_content }
+  end
 end
