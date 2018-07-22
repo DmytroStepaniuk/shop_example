@@ -1,9 +1,10 @@
 class UserDecorator < Draper::Decorator
   delegate_all
+  
   decorates_association :user
   
   def full_name
-    [object.first_name, object.last_name].join(' ')
+    [first_name, last_name].join(' ')
   end
 
   def as_json
