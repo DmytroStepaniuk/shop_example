@@ -1,7 +1,7 @@
 class ApplicationController < ActionController::Base
   protect_from_forgery with: :exception
   
-  helper_method :resource, :current_user, :current_session
+  helper_method :resource, :collection, :current_user, :current_session
 
   attr_reader :resource, :current_session, :current_user
 
