@@ -4,5 +4,5 @@ class LineItemDecorator < Draper::Decorator
   def total 
     '%.2f$' % (model.total/100.0) 
   end
-
+  
 end
