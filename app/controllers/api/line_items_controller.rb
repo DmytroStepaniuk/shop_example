@@ -5,6 +5,7 @@ class Api::LineItemsController < ApplicationController
   end
 
   def build_resource
+    binding.pry
     @line_item = current_user.cart.line_items.build(resource_params)
   end
   
