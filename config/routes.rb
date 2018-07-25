@@ -4,5 +4,6 @@ Rails.application.routes.draw do
     resource :users, only: :create
     resource :sessions, only: [:create, :destroy]
     resource :line_items, only: [:create]
+    resource :orders
   end
 end
