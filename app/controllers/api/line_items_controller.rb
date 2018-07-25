@@ -1,9 +1,9 @@
 class Api::LineItemsController < ApplicationController
 
   def update
-    item = current_user.cart.line_items.find_by_product_id(params[:product_id])
+    item = current_user.cart.line_items.find_by_product_id product_id
     
-    params[:quantity] < "1" ?  item.destroy! : item.update!(quantity: params[:quantity]) 
+    quantity < "1" ?  item.destroy! : item.update!(quantity: quantity) 
 
     head :ok
   end
@@ -18,6 +18,14 @@ class Api::LineItemsController < ApplicationController
     @line_item = current_user.cart.line_items.build(resource_params)
   end
   
+  def quantity
+    resource_params[:quantity]
+  end
+
+  def product_id
+    resource_params[:product_id]
+  end
+
   def resource_params
     params.require(:line_item).permit(:product_id, :quantity)
   end
