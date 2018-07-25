@@ -9,9 +9,15 @@ class ApplicationController < ActionController::Base
   
   skip_before_action :verify_authenticity_token, if: -> { request.format.json? }
 
+  def create
+    build_resource
+
+    resource.save!
+  end
+
+  # :nocov:
   rescue_from ActionController::ParameterMissing do |exception|
     @exception = exception
-
     render :exception, status: :unprocessable_entity
   end
 
@@ -21,15 +27,9 @@ class ApplicationController < ActionController::Base
 
   rescue_from ActiveRecord::RecordNotFound do
     @exception = 'Not Found'
-
     render :exception, status: :not_found
   end
-
-  def create
-    build_resource
-
-    resource.save!
-  end
+  # :nocov:
 
   private
 
@@ -40,4 +40,5 @@ class ApplicationController < ActionController::Base
       @current_user = User.joins(:sessions).find_by sessions: { auth_token: token }
     end
   end
+  
 end
