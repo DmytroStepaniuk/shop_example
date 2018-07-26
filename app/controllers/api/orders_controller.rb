@@ -1,8 +1,7 @@
 class Api::OrdersController < ApplicationController
   
   def create
-    current_user.cart.update(status: :pending)
-    head :ok
+    current_user.cart.pending!
   end
   
 end

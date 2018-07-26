@@ -1,1 +1,1 @@
-resource.to_json
+current_user.cart.to_json

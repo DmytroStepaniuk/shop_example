@@ -7,58 +7,39 @@ RSpec.describe Api::LineItemsController, type: :controller do
   
   it { should route(:put, '/api/line_items').to(action: :update, format: :json)  }
 
-  let(:current_user) { stub_model User }
+  let(:user) { stub_model User }
   
-  before { sign_in current_user }
+  before { sign_in user }
   
-  let(:line_item) { stub_model LineItem }
+  let(:line_item) { user.cart.line_items.find_or_initialize_by id: 1 }
 
-  let(:params) { { product_id: '1', quantity: '1' } }
+  let(:params) { { product_id: '111', quantity: '1' } }
 
   describe '#create.json' do
-    before { expect(subject).to receive(:current_user).and_return current_user }
-    
     before do
-      expect(current_user).to receive_message_chain(:cart, :line_items, :build).
+      expect(user).to receive_message_chain(:cart, :line_items, :build).
         with(no_args).with(no_args).with(permit! params).
         and_return line_item 
     end
     
     before { expect(line_item).to receive :save! }
     
-    before { post :create, params: { line_item: params }, format: :json }
+    before { post :create, params: params, format: :json }
 
     it { should render_template :create }
   end
 
-  describe '#update' do
-    let(:item) { line_item }
+  describe '#update' do 
     before do
-      expect(current_user).
-        to receive_message_chain(:cart, :line_items, :find_by_product_id).
-        with(no_args).with(no_args).with("1").
+      expect(user).to receive_message_chain(:cart, :line_items, :find_by).
+        with(no_args).with(no_args).with(product_id: "111").
         and_return line_item 
     end
+    
+    before { expect(line_item).to receive(:update!).with(quantity: "1").and_return true }
 
-    # context do  
-    #   before { expect("1").to receive(:<).with("1").and_return true }
+    before { post :update, params: params, format: :json }
 
-    #   before do
-    #     expect { post :update, params: { line_item: params }, format: :json  }
-    #       .to change(LineItem, :count).by(-1) 
-    #   end 
-
-    #   it { should respond_with :ok }
-    # end
-
-    context do  
-      before { expect("1").to receive(:<).with("1").and_return false }
-
-      before { post :update, params: { line_item: params }, format: :json }
-
-      before { expect(line_item.quantity).to eq(1) }
-
-      it { should respond_with :ok }
-    end
+    it { should render_template :update }
   end
 end
