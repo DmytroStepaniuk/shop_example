@@ -9,6 +9,8 @@ class LineItem < ApplicationRecord
 		self.total = product.price * quantity
 	end
 
+	after_save { order.update_total }
+	
   before_update { self.total = price * quantity }
 
 end
