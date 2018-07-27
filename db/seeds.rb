@@ -1,6 +1,6 @@
 puts "\nRun seeds...\n"
 
-u = User.create! first_name: 'Luke', last_name: 'Keks', email: 'Luke@keks.com', password: '213123'
+u = User.create! first_name: 'Luke', last_name: 'Keks', email: 'Luke@keks.com', password: '123456'
 pp u
 
 s = User.first.sessions.create!
