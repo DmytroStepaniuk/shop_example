@@ -7,8 +7,10 @@ class Order < ApplicationRecord
   
   validates :user_id, uniqueness: true, if: :cart?
 
-  def update_total
-  	update total: line_items.sum(:total)
+  before_save :calculate_total
+  
+  def calculate_total
+  	self.total = line_items.sum(:total)
   end
   
 end

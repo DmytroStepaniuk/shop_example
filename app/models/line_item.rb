@@ -4,13 +4,17 @@ class LineItem < ApplicationRecord
   
   validates :quantity, numericality: { greater_than: 0 }
 
-	before_create do
-		self.price = product.price
-		self.total = product.price * quantity
-	end
+	before_save :set_price_and_calculate_total
 
-	after_save { order.update_total }
+	after_save :set_orders_total
 	
-  before_update { self.total = price * quantity }
+	def set_orders_total
+		order.save
+	end
+	
+	def set_price_and_calculate_total
+		self.price = product.price
+		self.total = price * quantity
+	end
 
 end
