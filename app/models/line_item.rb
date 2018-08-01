@@ -6,10 +6,10 @@ class LineItem < ApplicationRecord
 
 	before_save :set_price_and_calculate_total
 
-	after_save :set_orders_total
+	after_save :set_orders_total!
 	
-	def set_orders_total
-		order.save
+	def set_orders_total!
+		order.save!
 	end
 	
 	def set_price_and_calculate_total
