@@ -14,20 +14,17 @@ RSpec.describe LineItem, type: :model do
   describe "#set_orders_total!" do
     before { expect(subject).to receive_message_chain(:order, :save!) }
     
-    it { expect { subject.send(:set_orders_total!) }.to_not raise_error }
+    it { expect { subject.set_orders_total! }.to_not raise_error }
   end
 
-  # describe  "#set_price_and_calculate_total" do
-  #   let(:product) { stub_model Product, price: 2, id: 1 }
+  describe  "#set_price_and_calculate_total" do
+    let(:product) { stub_model Product, price: 2 }
     
-  #   let(:line_item) { stub_model LineItem, product_id: 1, order_id: 1, quantity: 3 }
+    let(:line_item) { stub_model LineItem, product: product, quantity: 3 }
     
-  #   before { expect(subject).to receive(:price=).with(2) }
+    before { line_item.set_price_and_calculate_total }
     
-  #   before { expect(subject).to receive(:total=).with(6) }
-    
-  #   before { expect(line_item).to receive(:set_price_and_calculate_total) }
-    
-  #   it { expect(line_item.total).to eq(6) }
-  # end
+    it { expect(line_item.total).to eq(6) }
+  end
+  
 end

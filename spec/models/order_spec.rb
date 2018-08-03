@@ -11,16 +11,18 @@ RSpec.describe Order, type: :model do
   
   it { should callback(:calculate_total).before(:save) }
   
-  # describe "uniqueness_of_user_id" do
-  #   before { allow(subject).to receive(:cart?).and_return(true)  }
+  describe "uniqueness_of_user_id" do
+    let(:user) { User.create email: "test@test.com", password: "123456" }
+  
+    before { user.orders.create(status: :cart) }
     
-  #   it { should validate_uniqueness_of(:user_id) }
-  # end
+    it { expect { user.orders.create!(staus: :cart) }.to raise_error }
+  end
   
   describe "#calculate_total" do
     before { expect(subject).to receive_message_chain(:line_items, :sum).with(no_args).with(:total) }
     
-    it { expect { subject.send(:calculate_total) }.to_not raise_error }
+    it { expect { subject.calculate_total }.to_not raise_error }
   end
   
 end
