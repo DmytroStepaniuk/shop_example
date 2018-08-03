@@ -6,4 +6,8 @@ class User < ApplicationRecord
   
   validates :password, length: { minimum: 6 }
   validates :email, presence: true, uniqueness: { case_sensitive: false }
+  
+  def cart
+    self.orders.find_or_initialize_by(status: :cart)
+  end
 end

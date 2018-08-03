@@ -1,0 +1,1 @@
+current_user.cart.to_json
