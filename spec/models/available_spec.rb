@@ -1,5 +1,6 @@
 require 'rails_helper'
 
 RSpec.describe Available, type: :model do
-  pending "add some examples to (or delete) #{__FILE__}"
+  it { should belong_to :store }
+  it { should belong_to :product }
 end
