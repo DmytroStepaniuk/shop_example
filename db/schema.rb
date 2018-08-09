@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_07_23_143503) do
+ActiveRecord::Schema.define(version: 2018_08_09_183252) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -34,6 +34,16 @@ ActiveRecord::Schema.define(version: 2018_07_23_143503) do
     t.string "checksum", null: false
     t.datetime "created_at", null: false
     t.index ["key"], name: "index_active_storage_blobs_on_key", unique: true
+  end
+
+  create_table "availables", force: :cascade do |t|
+    t.integer "quantity"
+    t.bigint "store_id"
+    t.bigint "product_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["product_id"], name: "index_availables_on_product_id"
+    t.index ["store_id"], name: "index_availables_on_store_id"
   end
 
   create_table "line_items", force: :cascade do |t|
@@ -72,6 +82,13 @@ ActiveRecord::Schema.define(version: 2018_07_23_143503) do
     t.index ["user_id"], name: "index_sessions_on_user_id"
   end
 
+  create_table "stores", force: :cascade do |t|
+    t.string "name"
+    t.string "location"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
   create_table "users", force: :cascade do |t|
     t.string "first_name"
     t.string "last_name"
@@ -81,6 +98,8 @@ ActiveRecord::Schema.define(version: 2018_07_23_143503) do
     t.datetime "updated_at", null: false
   end
 
+  add_foreign_key "availables", "products"
+  add_foreign_key "availables", "stores"
   add_foreign_key "line_items", "orders"
   add_foreign_key "line_items", "products"
   add_foreign_key "orders", "users"
