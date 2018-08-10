@@ -11,6 +11,10 @@ puts '', "auth_token:", s.auth_token, ''
  [name: 'p3', price: '22']].map { |p| Product.create! p }
 puts "products are created\n\n"
 
+store = Store.create name: 'Luka'
+store.availables.create! product: Product.last, quantity: 4
+puts "store and available product was created\n"
+
 [{product_id: 1, quantity: 1},
  {product_id: 2, quantity: 2},
  {product_id: 3, quantity: 3}].map { |l| k = User.first.cart.line_items.build(l); k.save! }
@@ -20,4 +24,4 @@ puts ''
 
 pp User.first.cart
 
-
+LineItem.last.product.availables.create! store: Store.last, quantity: 4
