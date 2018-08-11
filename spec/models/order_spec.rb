@@ -16,7 +16,7 @@ RSpec.describe Order, type: :model do
   
     before { user.orders.create(status: :cart) }
     
-    it { expect { user.orders.create!(staus: :cart) }.to raise_error }
+    it { expect { user.orders.create!(status: :cart) }.to raise_error ActiveRecord::RecordInvalid }
   end
   
   describe "#calculate_total" do

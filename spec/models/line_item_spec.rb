@@ -13,15 +13,17 @@ RSpec.describe LineItem, type: :model do
     
   let(:line_item) { stub_model LineItem, product: product, quantity: 3 }
   
-  let(:available) { stub_model Available, quantity: 4, product: product }
+  let(:store) { stub_model Store }
   
-  describe "apt_quantity" do
-    before do 
-      expect(subject).to receive_message_chain(:product, :availables, :sum)
-                          .with(no_args).with(no_args).with(:quantity)
-    end
+  let(:available) { stub_model Available, quantity: 4, product: product, store: store }
+  
+  describe "#apt_quantity" do
+    before { available.update! quantity: 2 }
     
-    xit {  }
+    it 'should validate quantity' do
+      expect { line_item.update! quantity: 5 }.to raise_error ActiveRecord::RecordInvalid
+      expect { line_item.update! quantity: 0 }.to raise_error ActiveRecord::RecordInvalid
+    end  
   end
   
   describe "#set_orders_total!" do
