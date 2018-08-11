@@ -25,7 +25,7 @@ class LineItem < ApplicationRecord
 
 	def apt_quantity_from(store = Store.first)
 		@qty ||= product.availables.find_by(store: store).quantity
-	  #order.store.availables.product
+
     errors.add :quantity, 'is invalid' unless quantity.in?(1..@qty)
 	end
 end

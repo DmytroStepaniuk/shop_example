@@ -12,10 +12,15 @@ puts '', "auth_token:", s.auth_token, ''
 puts "products are created\n\n"
 
 store = Store.create name: 'Luka'
-Product.all.each do |p| 
+Product.all.each do |p|
   store.availables.create! product: p, quantity: 4
 end
-puts "store and available products were created\n\n"
+
+store2 = Store.create name: 'Saturn'
+Product.all.each do |p|
+  store.availables.create! product: p, quantity: 2
+end
+puts "stores and available products were created\n\n"
 
 User.first.cart.save!
 [{product_id: 1, quantity: 1},
