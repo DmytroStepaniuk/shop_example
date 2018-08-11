@@ -21,8 +21,16 @@ User.first.cart.save!
 [{product_id: 1, quantity: 1},
  {product_id: 2, quantity: 2},
  {product_id: 3, quantity: 3}].map { |l| u.cart.line_items.create! l }
+
 pp User.first.cart.line_items
 
 puts ''
 
 pp User.first.cart
+
+User.first.cart.pending!
+
+puts '', "cart is in pending...", ''
+
+pp store.availables
+
