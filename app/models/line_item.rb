@@ -17,14 +17,8 @@ class LineItem < ApplicationRecord
 		self.total = price * quantity
 	end
 
-	def apt_quantity ####### from_all_stores #######
-		@qty ||= product.availables.sum :quantity
-
-    errors.add :quantity, 'is invalid' unless quantity.in?(1..@qty)
-	end
-
-	def apt_quantity_from(store = Store.first)
-		@qty ||= product.availables.find_by(store: store).quantity
+	def apt_quantity
+		@qty ||= product.availables.find_by(store: order.store).quantity
 
     errors.add :quantity, 'is invalid' unless quantity.in?(1..@qty)
 	end

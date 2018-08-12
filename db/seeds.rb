@@ -25,7 +25,7 @@ puts "stores and available products were created\n\n"
 User.first.cart.save!
 [{product_id: 1, quantity: 1},
  {product_id: 2, quantity: 2},
- {product_id: 3, quantity: 3}].map { |l| u.cart.line_items.create! l }
+ {product_id: 3, quantity: 6}].map { |l| u.cart.line_items.create! l }
 
 pp User.first.cart.line_items
 
