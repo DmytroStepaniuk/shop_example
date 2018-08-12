@@ -17,8 +17,10 @@ class LineItem < ApplicationRecord
 		self.total = price * quantity
 	end
 
-	def apt_quantity
-		@qty ||= product.availables.find_by(store: order.store).quantity
+	def apt_quantity(store = nil)
+		@qty ||= product.availables.find_by(store: order.store).quantity if order.offline?
+
+    @qty ||= product.availables.sum(:quantity) if order.online?
 
     errors.add :quantity, 'is invalid' unless quantity.in?(1..@qty)
 	end

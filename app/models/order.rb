@@ -1,6 +1,8 @@
 class Order < ApplicationRecord
   enum status: [:cart, :pending, :accepted, :declained]
 
+  enum type: [:online, :offline]
+
   belongs_to :user
   belongs_to :store
   has_many :line_items
