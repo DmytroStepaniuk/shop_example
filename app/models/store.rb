@@ -1,5 +1,5 @@
 class Store < ApplicationRecord
-  has_many :products, through: :availables
   has_many :availables
-  has_many :orders
+  has_and_belongs_to_many :orders
+  has_many :products, through: :availables
 end
