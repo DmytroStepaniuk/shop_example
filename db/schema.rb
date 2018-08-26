@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2018_08_18_200518) do
+ActiveRecord::Schema.define(version: 2018_08_25_124356) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -65,14 +65,8 @@ ActiveRecord::Schema.define(version: 2018_08_18_200518) do
     t.datetime "updated_at", null: false
     t.integer "status", default: 0
     t.bigint "store_id"
-    t.integer "kind"
     t.index ["store_id"], name: "index_orders_on_store_id"
     t.index ["user_id"], name: "index_orders_on_user_id"
-  end
-
-  create_table "orders_stores", id: false, force: :cascade do |t|
-    t.bigint "order_id", null: false
-    t.bigint "store_id", null: false
   end
 
   create_table "products", force: :cascade do |t|
@@ -80,6 +74,16 @@ ActiveRecord::Schema.define(version: 2018_08_18_200518) do
     t.integer "price"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+  end
+
+  create_table "purchase_orders", force: :cascade do |t|
+    t.bigint "line_item_id"
+    t.bigint "store_id"
+    t.integer "quantity"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["line_item_id"], name: "index_purchase_orders_on_line_item_id"
+    t.index ["store_id"], name: "index_purchase_orders_on_store_id"
   end
 
   create_table "sessions", force: :cascade do |t|
@@ -113,5 +117,7 @@ ActiveRecord::Schema.define(version: 2018_08_18_200518) do
   add_foreign_key "line_items", "products"
   add_foreign_key "orders", "stores"
   add_foreign_key "orders", "users"
+  add_foreign_key "purchase_orders", "line_items"
+  add_foreign_key "purchase_orders", "stores"
   add_foreign_key "sessions", "users"
 end

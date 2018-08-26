@@ -18,15 +18,11 @@ end
 
 store2 = Store.create name: 'Saturn', priority: 2
 Product.all.each do |p|
-  store.availables.create! product: p, quantity: 2
+  store2.availables.create! product: p, quantity: 2
 end
 puts "stores and available products were created\n\n"
 
-
-c = User.first.cart
-c.stores << store
-c.kind = "online"
-c.save!
+User.first.cart.save!
 
 [{product_id: 1, quantity: 1},
  {product_id: 2, quantity: 2},
@@ -38,9 +34,10 @@ puts ''
 
 pp User.first.cart
 
-User.first.cart.pending!
+OrderHandler.new(User.first).pending!
 
 puts '', "cart is in pending...", ''
 
 pp store.availables
 
+pp PurchaseOrder.all

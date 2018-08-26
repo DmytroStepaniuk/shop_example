@@ -1,12 +1,13 @@
 class LineItem < ApplicationRecord
   belongs_to :order
   belongs_to :product
+  has_many :purchase_orders
 
 	before_save :set_price_and_calculate_total
 
 	after_save :set_orders_total!
 
-  validate :apt_quantity
+  validate :check_quantity
 
 	def set_orders_total!
 		order.save!
@@ -17,10 +18,8 @@ class LineItem < ApplicationRecord
 		self.total = price * quantity
 	end
 
-	def apt_quantity
-		@qty ||= product.availables.find_by(store: order.store).quantity if order.offline?
-
-    @qty ||= product.availables.sum(:quantity) if order.online?
+	def check_quantity
+    @qty ||= product.availables.sum(:quantity)
 
     errors.add :quantity, 'is invalid' unless quantity.in?(1..@qty)
 	end

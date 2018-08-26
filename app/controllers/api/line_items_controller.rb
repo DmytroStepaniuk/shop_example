@@ -11,12 +11,6 @@ class Api::LineItemsController < ApplicationController
   end
 
   def build_resource
-    c = current_user.cart
-    c.kind = params[:order_kind]
-    c.store = params[:store] if c.offline?
-    #c.store = Store.order(:priority).first
-    #if update quantity greater then is in store take next store(create order?)
-    c.save!
     @line_item = current_user.cart.line_items.build(resource_params)
   end
 

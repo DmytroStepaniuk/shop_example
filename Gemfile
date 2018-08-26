@@ -13,11 +13,13 @@ group :development, :test do
   gem 'rspec-rails'
   gem 'pry-rails'
   gem 'pry-byebug'
+
+  gem 'rails-erd'
+  gem 'railroady'
 end
 
 group :development do
   gem 'listen'
-  gem 'rails-erd'
 end
 
 group :test do
