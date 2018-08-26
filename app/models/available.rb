@@ -4,5 +4,5 @@ class Available < ApplicationRecord
 
   validates :quantity, numericality: { greater_than_or_equal_to: 0 }
 
-  validates :product_id, uniqueness: true
+  validates :product_id, uniqueness: { scope: :store }
 end

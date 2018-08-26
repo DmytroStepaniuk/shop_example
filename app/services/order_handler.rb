@@ -15,7 +15,7 @@ class OrderHandler
       p.availables.includes(:store).order("stores.priority").each do |av|
         av_q = av.quantity
 
-        qty = av.quantity.downto 0 do |i|
+        qty = av_q.downto 0 do |i|
                 break i if li_q == 0 || i == 0
                 li_q -= 1
               end
@@ -27,11 +27,4 @@ class OrderHandler
       end
     end
   end
-
-
-
-
-
-
-
 end
