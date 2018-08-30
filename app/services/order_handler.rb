@@ -5,25 +5,28 @@ class OrderHandler
   end
 
   def pending!
-    @cart.products.each do |p|
-      li = @cart.line_items.find_by(product: p)
+    @cart.products.each do |product|
+      line_item = @cart.line_items.find_by(product: product)
 
-      li_q = li.quantity
+      still_needed = line_item.quantity
+
+      availables = product.availables.includes(:store).order("stores.priority")
 
       enough = false
 
-      p.availables.includes(:store).order("stores.priority").each do |av|
-        av_q = av.quantity
+      availables.each do |available|
+        available_qty, store = available.quantity, available.store
 
-        qty = av_q.downto 0 do |i|
-                break i if li_q == 0 || i == 0
-                li_q -= 1
-              end
+        remains = available_qty.downto 0 do |i|
+                    break i if still_needed == 0 || i == 0
+                    still_needed -= 1
+                  end
         unless enough
-          av.update quantity: qty
-          li.purchase_orders.create! quantity: av_q - qty, store: av.store
+          available.update! quantity: remains
+          taked = available_qty - remains
+          line_item.purchase_orders.create! quantity: taked, store: store
         end
-        enough = true if li_q == 0
+        enough = true if still_needed == 0
       end
     end
   end

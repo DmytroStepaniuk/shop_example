@@ -39,5 +39,7 @@ OrderHandler.new(User.first).pending!
 puts '', "cart is in pending...", ''
 
 pp store.availables
+puts "\nsecond store\n\n"
+pp store2.availables
 
 pp PurchaseOrder.all
