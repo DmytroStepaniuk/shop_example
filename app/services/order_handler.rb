@@ -1,7 +1,7 @@
 class OrderHandler
 
   def initialize(user)
-    @user, @cart = user, user.cart
+    @cart = user.cart
   end
 
   def pending!
