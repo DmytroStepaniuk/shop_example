@@ -12,21 +12,16 @@ class OrderHandler
 
       availables = product.availables.includes(:store).order("stores.priority")
 
-      enough = false
-
       availables.each do |available|
-        available_qty, store = available.quantity, available.store
+        next if still_needed == 0
 
-        remains = available_qty.downto 0 do |i|
-                    break i if still_needed == 0 || i == 0
-                    still_needed -= 1
-                  end
-        unless enough
-          available.update! quantity: remains
-          taked = available_qty - remains
-          line_item.purchase_orders.create! quantity: taked, store: store
-        end
-        enough = true if still_needed == 0
+        taked = available.quantity >= still_needed ? still_needed : available.quantity
+
+        available.decrement! :quantity, taked
+
+        line_item.purchase_orders.create! quantity: taked, store: available.store
+
+        still_needed -= taked
       end
     end
   end
