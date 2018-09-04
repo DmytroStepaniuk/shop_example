@@ -12,19 +12,15 @@ RSpec.describe LineItem, type: :model do
   it { should callback(:set_orders_total!).after(:save) }
 
   describe "#check_quantity" do
-    before do
-      expect(subject).to receive_message_chain(:product, :availables, :sum)
-        .with(no_args).with(no_args).with(:quantity)
+    xit do
+      expect(create_line_items_with_invalide_qty)
+        .to raise_error(:quantity, 'is invalid')
+      end
     end
 
-    context do
-      before do
-        expect(subject).to receive_message_chain(:quantity, :in?)
-          .with(no_args).with(1..4).and_return false
-      end
-      xit do
-        expect(subject).to receive_message_chain(:errors, :add)
-          .with(no_args).with(:quantity, 'is invalid')
+    xit do
+      expect(create_line_items_with_valide_qty)
+        .to_not raise_error(:quantity, 'is invalid')
       end
     end
   end
