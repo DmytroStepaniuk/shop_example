@@ -13,7 +13,7 @@ group :development, :test do
   gem 'rspec-rails'
   gem 'pry-rails'
   gem 'pry-byebug'
-
+  gem 'factory_bot_rails'
   gem 'rails-erd'
   gem 'railroady'
 end
