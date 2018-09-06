@@ -1,8 +1,9 @@
+# :nocov:
 class Api::UsersController < ApplicationController
   skip_before_action :authenticate!, only: :create
 
   private
-  
+
   def build_resource
     @user = User.new resource_params
   end

@@ -18,9 +18,9 @@ RSpec.configure do |config|
 
   config.include Permitter
 
-  # config.include Builder
+  config.include LineItemsBuilder
 
-  # config.include FactoryBot::Syntax::Methods
+  config.include FactoryBot::Syntax::Methods
 end
 
 Shoulda::Matchers.configure do |config|

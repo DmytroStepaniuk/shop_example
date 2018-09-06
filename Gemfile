@@ -16,6 +16,7 @@ group :development, :test do
   gem 'factory_bot_rails'
   gem 'rails-erd'
   gem 'railroady'
+  gem 'nyan-cat-formatter'
 end
 
 group :development do
