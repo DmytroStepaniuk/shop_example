@@ -3,6 +3,7 @@ source 'https://rubygems.org'
 git_source(:github) { |repo_name| "https://github.com/#{ repo_name.include?('/') ? "#{repo_name}/#{repo_name}" : repo_name }.git" }
 
 gem 'rails', '~> 5.2'
+gem 'bootsnap', require: false
 gem 'pg', '>= 0.18', '< 2.0'
 gem 'puma'
 gem 'bcrypt'

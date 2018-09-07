@@ -10,7 +10,7 @@ require "action_mailer/railtie"
 require "action_view/railtie"
 require "action_cable/engine"
 require "active_storage/engine"
-# require "sprockets/railtie"
+require "sprockets/railtie"
 # require "rails/test_unit/railtie"
 
 # Require the gems listed in Gemfile, including any gems
@@ -28,7 +28,7 @@ module ShopExample
 
     # Don't generate system test files.
     config.generators.system_tests = nil
-    
+
     config.generators.stylesheets = false
     config.generators.javascripts = false
   end
