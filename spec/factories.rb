@@ -9,6 +9,8 @@ FactoryBot.define do
 
     after :create do |user|
       create :session, user: user
+      create_list :product, 3
+      create :store
       create :order,   user: user
     end
   end
@@ -27,9 +29,6 @@ FactoryBot.define do
     order
     product
     sequence(:quantity)
-    after :create do
-      create_list :store, 2
-    end
   end
 
   factory :store do
@@ -44,10 +43,6 @@ FactoryBot.define do
   factory :available do
     sequence(:quantity)
     product
-    store
-    after :create do
-      create :product
-    end
   end
 
   factory :product do
