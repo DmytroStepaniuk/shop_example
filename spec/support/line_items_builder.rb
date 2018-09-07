@@ -2,16 +2,16 @@ module LineItemsBuilder
   def create_line_items(valide_qty: true)
     u = User.create!(first_name: 'Luke',
                      last_name: 'Keks',
-                     email: 'Luke@keks.com',
+                     email: "luke#{rand}@keks.com",
                      password: '123456')
 
     [[name: 'p1', price: '1'],
      [name: 'p2', price: '11'],
      [name: 'p3', price: '22']].map { |p| Product.create! p }
 
-    store = Store.create name: 'Luka', priority: 1
+    store1 = Store.create name: 'Luka', priority: 1
     Product.all.each do |p|
-      store.availables.create! product: p, quantity: 4
+      store1.availables.create! product: p, quantity: 4
     end
 
     store2 = Store.create name: 'Saturn', priority: 2
@@ -33,6 +33,6 @@ module LineItemsBuilder
        {product: Product.third,  quantity:  7}].map { |l| u.cart.line_items.create! l }
     end
 
-    return u
+    return {user: u, store1: store1, store2: store2}
   end
 end

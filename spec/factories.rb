@@ -9,8 +9,6 @@ FactoryBot.define do
 
     after :create do |user|
       create :session, user: user
-      create_list :product, 3
-      create :store
       create :order,   user: user
     end
   end
@@ -21,6 +19,8 @@ FactoryBot.define do
   factory :order do
     user
     after :create do |order|
+      create_list :product, 3
+      create :store
       create_list :line_item, 3, order: order
     end
   end

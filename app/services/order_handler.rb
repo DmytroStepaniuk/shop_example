@@ -24,5 +24,7 @@ class OrderHandler
         still_needed -= taked
       end
     end
+
+    @cart.pending!
   end
 end

@@ -1,12 +1,12 @@
 class ApplicationController < ActionController::Base
   protect_from_forgery with: :exception
-  
+
   helper_method :resource, :collection, :current_user, :current_session
 
   attr_reader :resource, :current_session, :current_user
 
   before_action :authenticate!
-  
+
   skip_before_action :verify_authenticity_token, if: -> { request.format.json? }
 
   def destroy
@@ -33,7 +33,7 @@ class ApplicationController < ActionController::Base
     @exception = 'Not Found'
     render :exception, status: :not_found
   end
-  # :nocov:
+
 
   private
 
@@ -44,5 +44,5 @@ class ApplicationController < ActionController::Base
       @current_user = User.joins(:sessions).find_by sessions: { auth_token: token }
     end
   end
-  
+
 end
