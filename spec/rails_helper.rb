@@ -18,8 +18,6 @@ RSpec.configure do |config|
 
   config.include Permitter
 
-  config.include LineItemsBuilder
-
   config.include FactoryBot::Syntax::Methods
 end
 
