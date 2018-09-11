@@ -1,3 +1,12 @@
+User.destroy_all
+Store.destroy_all
+Order.destroy_all
+Product.destroy_all
+Session.destroy_all
+LineItem.destroy_all
+Available.destroy_all
+PurchaseOrder.destroy_all
+
 puts "\nRun seeds...\n"
 
 u = User.create! first_name: 'Luke', last_name: 'Keks', email: 'Luke@keks.com', password: '123456'

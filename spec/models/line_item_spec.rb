@@ -12,9 +12,11 @@ RSpec.describe LineItem, type: :model do
   it { should callback(:set_orders_total!).after(:save) }
 
   describe "#check_quantity" do
-    it { expect { create_line_items(valide_qty: false) }.to raise_error(ActiveRecord::RecordInvalid) }
+    it { expect { create :line_item }.to_not raise_error(ActiveRecord::RecordInvalid) }
 
-    it { expect { create_line_items(valide_qty: true) }.to_not raise_error(ActiveRecord::RecordInvalid) }
+    it { expect { create :line_item, :with_zero_qty }.to raise_error(ActiveRecord::RecordInvalid) }
+
+    it { expect { create :line_item, :with_qty_greater_than_available }.to raise_error(ActiveRecord::RecordInvalid) }
   end
 
   describe "#set_orders_total!" do

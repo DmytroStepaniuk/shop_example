@@ -32,42 +32,31 @@
 require 'rails_helper'
 
 RSpec.describe OrderHandler do
-  let(:h) { create_line_items }
+  let(:user) { create :user_with_cart }
 
-  subject { OrderHandler.new(h[:user]) }
+  before { OrderHandler.new(user).pending! }
 
   describe 'pending!' do
-    before do
-      expect(h[:store1].availables.first.quantity).to  eq 4
-      expect(h[:store1].availables.second.quantity).to eq 4
-      expect(h[:store1].availables.third.quantity).to  eq 4
-      expect(h[:store2].availables.first.quantity).to  eq 2
-      expect(h[:store2].availables.second.quantity).to eq 2
-      expect(h[:store2].availables.third.quantity).to  eq 2
-    end
-
-    before do
-      expect(h[:user].cart.line_items.first.quantity).to  eq 1
-      expect(h[:user].cart.line_items.second.quantity).to eq 2
-      expect(h[:user].cart.line_items.third.quantity).to  eq 6
-    end
-
-    before { subject.pending! }
+    let(:products) { user.orders.find_by(status: :pending).products }
+    let(:store1)   { products.first.availables.first.store }
+    let(:store2)   { products.first.availables.second.store }
 
     context 'decrement availables' do
-      it { expect(h[:store1].availables.first.quantity).to  eq 3 }
-      it { expect(h[:store1].availables.second.quantity).to eq 2 }
-      it { expect(h[:store1].availables.third.quantity).to  eq 0 }
-      it { expect(h[:store2].availables.first.quantity).to  eq 2 }
-      it { expect(h[:store2].availables.second.quantity).to eq 2 }
-      it { expect(h[:store2].availables.third.quantity).to  eq 0 }
+      it { expect(products.first.availables.first.quantity).to   eq 0 }
+      it { expect(products.second.availables.first.quantity).to  eq 0 }
+      it { expect(products.third.availables.first.quantity).to   eq 0 }
+      it { expect(products.first.availables.second.quantity).to  eq 2 }
+      it { expect(products.second.availables.second.quantity).to eq 2 }
+      it { expect(products.third.availables.second.quantity).to  eq 2 }
     end
 
     context 'creating purchase orders' do
-      it { expect(h[:store1].purchase_orders.first.quantity).to  eq 1 }
-      it { expect(h[:store1].purchase_orders.second.quantity).to eq 2 }
-      it { expect(h[:store1].purchase_orders.third.quantity).to  eq 4 }
-      it { expect(h[:store2].purchase_orders.first.quantity).to  eq 2 }
+      it { expect(store1.purchase_orders.first.quantity).to  eq 3 }
+      it { expect(store1.purchase_orders.second.quantity).to eq 3 }
+      it { expect(store1.purchase_orders.third.quantity).to  eq 3 }
+      it { expect(store2.purchase_orders.first.quantity).to  eq 1 }
+      it { expect(store2.purchase_orders.second.quantity).to eq 1 }
+      it { expect(store2.purchase_orders.third.quantity).to  eq 1 }
     end
   end
 end
