@@ -19,7 +19,7 @@ class LineItem < ApplicationRecord
 	end
 
 	def check_quantity
-    @qty ||= product.availables.sum(:quantity)
+    @qty ||= self.product.availables.sum(:quantity)
 
     errors.add :quantity, 'is invalid' unless quantity.in?(1..@qty)
 	end
