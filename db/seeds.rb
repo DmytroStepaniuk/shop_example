@@ -1,12 +1,3 @@
-User.destroy_all
-Store.destroy_all
-Order.destroy_all
-Product.destroy_all
-Session.destroy_all
-LineItem.destroy_all
-Available.destroy_all
-PurchaseOrder.destroy_all
-
 puts "\nRun seeds...\n"
 
 u = User.create! first_name: 'Luke', last_name: 'Keks', email: 'Luke@keks.com', password: '123456'
@@ -31,7 +22,7 @@ Product.all.each do |p|
 end
 puts "stores and available products were created\n\n"
 
-User.first.cart.save!
+cart = User.first.cart.save!
 
 [{product_id: 1, quantity: 1},
  {product_id: 2, quantity: 2},
@@ -41,11 +32,13 @@ pp User.first.cart.line_items
 
 puts ''
 
-pp User.first.cart
+pp User.first.orders.cart.count
 
 OrderHandler.new(User.first).pending!
 
 puts '', "cart is in pending...", ''
+
+pp User.first.orders.cart.count
 
 pp store.availables
 puts "\nsecond store\n\n"

@@ -9,17 +9,17 @@ RSpec.describe OrderHandler do
   let(:store2) { create :store, priority: 2 }
 
   before do
-    products_ = create_list :product, 3
+    products = create_list :product, 3
 
     stores = [store1, store2]
 
-    products_.each do |p|
+    products.each do |p|
       stores.each do |s|
         s.availables.create! product: p, quantity: MAX_DEFAULT_QTY
       end
     end
 
-    products_.each do |p|
+    products.each do |p|
       cart.line_items.create! product: p, quantity: (MAX_DEFAULT_QTY + 1)
     end
   end
@@ -27,6 +27,11 @@ RSpec.describe OrderHandler do
   before { OrderHandler.new(user).pending! }
 
   describe 'pending!' do
+    it "orders status cart changes to pending" do
+      expect(user.orders.cart.count).to eq 0
+
+      expect { OrderHandler.new(user).pending! }.to change{ user.orders.pending.count }.by(1)
+    end
 
     it 'decrement availables in stors priority order' do
       expect(store1.availables.first.quantity).to  eq 0
