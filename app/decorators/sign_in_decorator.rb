@@ -1,3 +1,4 @@
+# :nocov:
 class SignInDecorator < Draper::Decorator
   delegate_all
 

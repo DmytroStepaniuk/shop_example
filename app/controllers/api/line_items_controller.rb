@@ -1,9 +1,9 @@
 class Api::LineItemsController < ApplicationController
 
   def update
-    resource.update!(quantity: params[:quantity]) 
+    resource.update!(quantity: params[:quantity])
   end
-  
+
   private
 
   def resource

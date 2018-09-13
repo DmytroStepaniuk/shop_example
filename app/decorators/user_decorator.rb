@@ -1,3 +1,4 @@
+# :nocov:
 class UserDecorator < Draper::Decorator
   delegate_all
 
@@ -11,5 +12,5 @@ class UserDecorator < Draper::Decorator
       full_name: object.full_name
     }
   end
-  
+
 end

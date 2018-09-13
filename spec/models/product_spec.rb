@@ -5,6 +5,10 @@ RSpec.describe Product, type: :model do
   
   it { should have_many(:orders).through(:line_items) }
   
+  it { should have_many :availables }
+  
+  it { should have_many(:stores).through(:availables) }
+  
   let(:product) { stub_model Product }
     
   it { expect(product.cover_image).to be_an_instance_of(ActiveStorage::Attached::One) }

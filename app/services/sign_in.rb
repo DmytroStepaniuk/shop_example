@@ -5,7 +5,7 @@ class SignIn
 
   validate do |model|
     if user
-      model.errors.add :password, 'is invalid' unless user.authenticate @params[:password]
+      model.errors.add :password, 'is invalid' unless password?
     else
       model.errors.add :email, 'not found'
     end
@@ -27,5 +27,9 @@ class SignIn
 
   def session
     @session ||= user.sessions.create!
+  end
+
+  def password?
+    user.authenticate @params[:password]
   end
 end
