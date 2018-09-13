@@ -11,8 +11,12 @@ RSpec.describe Available, type: :model do
     let(:product) { Product.create }
     before { first_store.availables.create! product: product, quantity: 1 }
 
-    it { expect { first_store.availables.create! product: product, quantity: 1 }.to raise_error(ActiveRecord::RecordInvalid) }
+    context "can't create same product in the store again" do
+      it { expect { first_store.availables.create! product: product, quantity: 1 }.to raise_error(ActiveRecord::RecordInvalid) }
+    end
 
-    it { expect { second_store.availables.create! product: product, quantity: 1 }.to_not raise_error(ActiveRecord::RecordInvalid) }
+    context "but can create same product in another store" do
+      it { expect { second_store.availables.create! product: product, quantity: 1 }.to_not raise_error(ActiveRecord::RecordInvalid) }
+    end
   end
 end
